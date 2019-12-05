@@ -1,8 +1,12 @@
 <template>
   <div class="small">
     <img alt="Quasar logo" src="../assets/logo.png">
+    <div>
+      <my-menu :a="A" :b="B" :c="C" :showDlg="showDlg" @closeEditDlg="showDlg = false" @setNewValue="check"/>
+      <q-btn color="primary" label="Параметры..." class="q-ml-md" @click="showDlg = true"/>
+    </div>
     <q-btn color = "primary" label = "Add new function" @click="addFunction()"></q-btn>
-    <q-select outlined v-model="currFuncName" :options="functionNames" label="Outlined" />
+    <q-select outlined v-model="currFuncName" :options="functionNames" label="Функции" />
     <q-input outlined v-model="A" label="A" />
     <q-input outlined v-model="B" label="B" />
     <q-input outlined v-model="C" label="C" />
@@ -28,14 +32,17 @@
 
 <script>
 import LineChart from '../components/LineCharts.js'
+import MyMenu from '../components/Menu.vue'
 import { QBtn, QInput, QColor, QSelect } from 'quasar'
+
 export default {
   components: {
     LineChart,
     QBtn,
     QInput,
     QColor,
-    QSelect
+    QSelect,
+    MyMenu
   },
 
   data () {
@@ -63,7 +70,8 @@ export default {
         start: 10,
         end: 10
       },
-      isNewFunc: false
+      isNewFunc: false,
+      showDlg: null
     }
   },
 
@@ -123,6 +131,14 @@ export default {
   },
 
   methods: {
+    check (form) {
+      this.A = form.a
+      this.B = form.b
+      this.C = form.c
+      this.parseParams()
+      this.showDlg = false
+    },
+
     updateIntefaceParams () {
       this.A = this.functions[this.currFuncName]['A']
       this.B = this.functions[this.currFuncName]['B']
