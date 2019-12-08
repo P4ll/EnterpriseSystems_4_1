@@ -2,7 +2,7 @@
   <div class="small">
     <img alt="Quasar logo" src="../assets/logo.png">
     <div>
-      <my-menu :a="A" :b="B" :c="C" :showDlg="showDlg" @closeEditDlg="showDlg = false" @setNewValue="check"/>
+      <my-menu :currFuncName="currFuncName" :functionNames="functionNames" :functions="functions" :showDlg="showDlg" @closeEditDlg="showDlg = false" @setNewValue="check"/>
       <q-btn color="primary" label="Параметры..." class="q-ml-md" @click="showDlg = true"/>
     </div>
     <q-btn color = "primary" label = "Add new function" @click="addFunction()"></q-btn>
@@ -131,11 +131,12 @@ export default {
   },
 
   methods: {
-    check (form) {
-      this.A = form.a
-      this.B = form.b
-      this.C = form.c
-      this.parseParams()
+    check (currFuncName, functionNames, functions) {
+      this.currFuncName = currFuncName
+      this.functionNames = functionNames
+      this.functions = functions
+
+      this.updateIntefaceParams()
       this.showDlg = false
     },
 
@@ -145,6 +146,7 @@ export default {
       this.C = this.functions[this.currFuncName]['C']
       this.color = this.functions[this.currFuncName]['color']
     },
+
     addFunction () {
       let newName = 'f' + (this.functionNames.length + 1)
       this.functionNames.push(newName)

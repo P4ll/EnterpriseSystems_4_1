@@ -40,6 +40,8 @@
                :error="cError"
                :error-message="cErrorMsg"
               />
+              <q-btn color = "primary" label = "Add new function" @click="addFunction()"></q-btn>
+              <q-select outlined v-model="currFuncNameTMP" :options="functionNamesTMP" label="Функции" />
           </div>
         </q-page>
       </q-page-container>
@@ -48,14 +50,16 @@
 </template>
 
 <script>
-import { QInput, QDialog, QLayout, QFooter } from 'quasar'
+import { QInput, QDialog, QLayout, QFooter, QSelect, QBtn } from 'quasar'
 
 export default {
   components: {
     QInput,
     QDialog,
     QFooter,
-    QLayout
+    QLayout,
+    QSelect,
+    QBtn
   },
 
   data () {
@@ -73,18 +77,29 @@ export default {
       bErrorMsg: '',
       cErrorMsg: '',
       emptyStrMsg: 'Строка пуста!',
-      invalidNumberMsg: 'Введенное значение не является числом!'
+      invalidNumberMsg: 'Введенное значение не является числом!',
+      currFuncNameTMP: null,
+      functionsTMP: {},
+      functionNamesTMP: null
     }
   },
 
   props: {
     showDlg: null,
-    a: null,
-    b: null,
-    c: null
+    currFuncName: null,
+    functions: null,
+    functionNames: null
+  },
+
+  mounted () {
+
   },
 
   watch: {
+    currFuncNameTMP (newVal, oldVal) {
+      this.updateForm()
+    },
+
     aForm (newVal, oldVal) {
       let isNumber = !isNaN(Number(newVal))
       this.aError = !isNumber || newVal === ''
@@ -92,6 +107,10 @@ export default {
         this.aErrorMsg = this.invalidNumberMsg
       } else {
         this.aErrorMsg = this.emptyStrMsg
+      }
+
+      if (!this.aError) {
+        this.functionsTMP[this.currFuncNameTMP]['A'] = Number(newVal)
       }
     },
 
@@ -103,6 +122,10 @@ export default {
       } else {
         this.bErrorMsg = this.emptyStrMsg
       }
+
+      if (!this.aError) {
+        this.functionsTMP[this.currFuncNameTMP]['B'] = Number(newVal)
+      }
     },
 
     cForm (newVal, oldVal) {
@@ -113,23 +136,44 @@ export default {
       } else {
         this.cErrorMsg = this.emptyStrMsg
       }
+
+      if (!this.aError) {
+        this.functionsTMP[this.currFuncNameTMP]['C'] = Number(newVal)
+      }
     }
   },
 
   methods: {
+    updateForm () {
+      this.aForm = this.functionsTMP[this.currFuncNameTMP]['A']
+      this.bForm = this.functionsTMP[this.currFuncNameTMP]['B']
+      this.cForm = this.functionsTMP[this.currFuncNameTMP]['C']
+    },
+
+    addFunction () {
+      let newName = 'f' + (this.functionNamesTMP.length + 1)
+      this.functionNamesTMP.push(newName)
+      this.functionsTMP[newName] = {
+        A: 1,
+        B: 1,
+        C: 1,
+        color: '#F00'
+      }
+      this.currFuncNameTMP = newName
+    },
+
     onShow () {
-      this.aForm = this.a
-      this.bForm = this.b
-      this.cForm = this.c
+      this.currFuncNameTMP = this.currFuncName
+      // copy functions
+      for (var func in this.functions) {
+        this.functionsTMP[func] = { ...(this.functions[func]) }
+      }
+      this.functionNamesTMP = this.functionNames.slice()
+      this.updateForm()
     },
 
     submit () {
-      let form = {
-        a: this.aForm,
-        b: this.bForm,
-        c: this.cForm
-      }
-      this.$emit('setNewValue', form)
+      this.$emit('setNewValue', this.currFuncNameTMP, this.functionNamesTMP, this.functionsTMP)
     },
 
     closeDlg () {
