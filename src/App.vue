@@ -26,7 +26,7 @@
           <q-btn stretch flat label="Регистрация" to="/reg"/>
         </div>
         <div v-else>
-          Привет {{ $store.state.currUser['name'] }}!
+          Привет, {{ $store.state.currUser['name'] }}!
           <q-btn stretch flat label="Выход" to="/auth" @click="signOut()"/>
         </div>
 
