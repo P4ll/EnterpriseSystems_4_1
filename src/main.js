@@ -13,18 +13,19 @@ import VueRouter from 'vue-router'
 import createPersistedState from 'vuex-persistedstate'
 
 import Graph from './pages/Graph.vue'
-import p404 from './pages/404.vue'
 import Auth from './pages/Authorization.vue'
 import Reg from './pages/Registration.vue'
+import Profile from './pages/Profile.vue'
 
 Vue.config.productionTip = false
 
 const router = new VueRouter({
   routes: [
-    { path: '*', component: p404 },
-    { path: '/graph/:id', component: Graph },
+    { path: '/', redirect: '/auth' },
+    { path: '/graph', component: Graph },
     { path: '/auth', component: Auth },
-    { path: '/reg', component: Reg }
+    { path: '/reg', component: Reg },
+    { path: '/profile', component: Profile }
   ]
 })
 

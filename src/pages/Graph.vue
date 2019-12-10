@@ -49,25 +49,18 @@ export default {
     return {
       datacollection: null,
       globalChartOptions: null,
-      currFuncName: 'f1',
-      functionNames: ['f1'],
-      functions: {
-        f1: {
-          A: 1,
-          B: 1,
-          C: 1,
-          color: '#F00'
-        }
-      },
+      currFuncName: '',
+      functionNames: [],
+      functions: this.$store.state.currUser['functions'],
       start: -10,
       end: 10,
-      xAxesVals: this.generateSequence(this.start, this.end),
+      xAxesVals: [],
       A: 1,
-      B: 1,
-      C: 1,
+      B: 0,
+      C: 0,
       color: '#F00',
       chartParams: {
-        start: 10,
+        start: -10,
         end: 10
       },
       isNewFunc: false,
@@ -83,6 +76,11 @@ export default {
 
   created () {
     this.datacollection = {}
+    this.xAxesVals = this.generateSequence(this.start, this.end)
+    for (var funcName in this.functions) {
+      this.functionNames.push(funcName)
+    }
+    this.currFuncName = this.functionNames[0]
     this.globalChartOptions = {
       responisve: true,
       title: {

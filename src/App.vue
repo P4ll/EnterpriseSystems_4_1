@@ -15,17 +15,26 @@
           Quasar App
         </q-toolbar-title>
 
-        <div v-if="$store.auth">
-          <router-link class="nav-link" to="/auth"/>
-          <router-link class="nav-link" to="/reg"/>
+        <router-link class="nav-link" to="/reg">
+          <template v-slot="props">
+            <q-btn v-bind="buttonProps(props)" />
+          </template>
+        </router-link>
+
+        <div v-if="!this.$store.state.auth">
+          <q-btn stretch flat label="Вход" to="/auth"/>
+          <q-btn stretch flat label="Регистрация" to="/reg"/>
         </div>
         <div v-else>
-          <router-link class="nav-link" to="/graph"/>
+          Привет {{ $store.state.currUser['name'] }}!
+          <q-btn stretch flat label="Выход" to="/auth" @click="signOut()"/>
         </div>
+
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      v-if="this.$store.state.auth"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
@@ -39,6 +48,11 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>График</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/profile">
+          <q-item-section>
+            <q-item-label>Профиль</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -64,7 +78,15 @@ export default {
     return {
       leftDrawerOpen: false
     }
+  },
+
+  methods: {
+    signOut () {
+      this.$store.state.auth = false
+      this.$store.state.currUser = null
+    }
   }
+
 }
 </script>
 

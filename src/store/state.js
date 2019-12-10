@@ -3,5 +3,8 @@ export default {
   login: '',
   password: '',
   auth: false,
+  users: [],
+  allLogins: {},
+  currUser: null,
   id: 0
 }
