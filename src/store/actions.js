@@ -2,20 +2,18 @@ export function setLang (contex, data) {
   contex.commit('setLang', data)
 }
 
-export function setLogin (contex, data) {
-  contex.commit('setLogin', data)
+export function addUser (contex, data) {
+  contex.commit('addUser', data)
 }
 
-export function setPassword (contex, data) {
-  contex.commit('setPassword', data)
+export function signIn (contex, data) {
+  contex.commit('signIn', data)
 }
 
-export function setAuth (contex) {
-  contex.commit('setAuth', true)
+export function signOut (contex, data) {
+  contex.commit('signOut', data)
 }
 
-export function unsetStorage (contex) {
-  contex.commit('unsetLang')
-  contex.commit('unsetUserName')
-  contex.commit('unsetAuth')
+export function changeUser (contex, data) {
+  contex.commit('changeUser', data)
 }
