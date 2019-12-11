@@ -3,43 +3,43 @@
     <img alt="Quasar logo" src="../assets/logo.png">
     <q-input
       v-model="name"
-      label="Имя"
+      :label="$t('reg.name')"
       :error="nameError"
       :error-message="nameErrorMsg"
     />
     <q-input
       v-model="login"
-      label="Логин"
+      :label="$t('reg.login')"
       :error="loginError"
       :error-message="loginErrorMsg"
     />
     <q-input
       v-model="password"
-      label="Пароль"
+      :label="$t('reg.password')"
       type="password"
       :error="passwordError"
       :error-message="passwordErrorMsg"
     />
     <q-input
       v-model="passwordConf"
-      label="Подтверждение пароля"
+      :label="$t('reg.passwordConf')"
       type="password"
       :error="passwordConfError"
       :error-message="passwordConfErrorMsg"
     />
     <q-input
       v-model="passport"
-      label="Паспорт"
+      :label="$t('reg.passport')"
       mask="####-######"
-      hint="Маска: ####-######"
+      :hint="$t('reg.passportHint')"
       :error="passportError"
       :error-message="passportErrorMsg"
     />
     <q-input
       v-model="birthday"
       mask="##.##.####"
-      hint="Маска: ##.##.####"
-      label="Дата рождения"
+      :hint="$t('reg.birthdayHint')"
+      :label="$t('reg.birthday')"
       :error="birthdayError"
       :error-message="birthdayErrorMsg"
     >
@@ -51,7 +51,7 @@
         </q-icon>
       </template>
     </q-input>
-    <q-btn color = "primary" label = "Сохранить" @click="saveChanges()"/>
+    <q-btn color = "primary" :label="$t('profile.saveLabel')" @click="saveChanges()"/>
   </div>
 </template>
 
@@ -79,41 +79,37 @@ export default {
       passwordConfError: false,
       passportError: false,
       birthdayError: false,
-      nameErrorMsg: '',
-      loginErrorMsg: '',
-      passwordErrorMsg: '',
-      passwordConfErrorMsg: '',
-      passportErrorMsg: '',
-      birthdayErrorMsg: ''
+      nameErrorMsg: this.$t('reg.errors.nameErrorMsg'),
+      loginErrorMsg: this.$t('reg.errors.loginErrorMsg'),
+      passwordErrorMsg: this.$t('reg.errors.passwordErrorMsg'),
+      passwordConfErrorMsg: this.$t('reg.errors.passwordConfErrorMsg'),
+      passportErrorMsg: this.$t('reg.errors.passportErrorMsg'),
+      birthdayErrorMsg: this.$t('reg.errors.birthdayErrorMsg'),
+      registrationErrorMsg: this.$t('reg.errors.registrationErrorMsg')
     }
   },
 
   watch: {
     name (newVal, oldVal) {
       this.nameError = newVal === ''
-      this.nameErrorMsg = 'Имя не может быть пустым!'
     },
 
     login (newVal, oldVal) {
       let reg = /[a-zA-Z]/
       this.loginError = !reg.test(newVal) || newVal === ''
-      this.loginErrorMsg = 'Логин не должен быть пустым или содержать символы отличные от английского алфавита!'
     },
 
     password (newVal, oldVal) {
       this.passwordError = newVal.length < 3
-      this.passwordErrorMsg = 'Длинна пароля должна составлять не менее 3 символов!'
     },
 
     passwordConf (newVal, oldVal) {
       this.passwordConfError = newVal !== this.password
-      this.passwordConfErrorMsg = 'Пароли не совпадают!'
     },
 
     passport (newVal, oldVal) {
       let reg = /[0-9]{4}-[0-9]{6}/
       this.passportError = !reg.test(newVal)
-      this.passportErrorMsg = 'Пспортные данные должны соответствовать шаблону XXXX-XXXXXX!'
     },
 
     birthday (newVal, oldVal) {
@@ -124,7 +120,6 @@ export default {
       }
       vals = vals.map(Number)
       this.birthdayError = vals[0] > 31 || vals[0] === 0 || vals[1] > 12 || vals[1] === 0
-      this.birthdayErrorMsg = 'Пспортные данные должны соответствовать шаблону DD.MM.YYYY!'
     }
   },
 
@@ -137,7 +132,12 @@ export default {
   },
 
   beforeUpdate () {
-
+    this.nameErrorMsg = this.$t('reg.errors.nameErrorMsg')
+    this.loginErrorMsg = this.$t('reg.errors.loginErrorMsg')
+    this.passwordErrorMsg = this.$t('reg.errors.passwordErrorMsg')
+    this.passwordConfErrorMsg = this.$t('reg.errors.passwordConfErrorMsg')
+    this.passportErrorMsg = this.$t('reg.errors.passportErrorMsg')
+    this.birthdayErrorMsg = this.$t('reg.errors.birthdayErrorMsg')
   },
 
   methods: {

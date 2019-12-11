@@ -3,18 +3,18 @@
     <img alt="Quasar logo" src="../assets/logo.png">
     <div>
       <my-menu :currFuncName="currFuncName" :functionNames="functionNames" :functions="functions" :showDlg="showDlg" @closeEditDlg="showDlg = false" @setNewValue="check"/>
-      <q-btn color="primary" label="Параметры..." class="q-ml-md" @click="showDlg = true"/>
+      <q-btn color="primary" :label="$t('graph.paramsLabel')" class="q-ml-md" @click="showDlg = true"/>
     </div>
-    <q-btn color = "primary" label = "Add new function" @click="addFunction()"></q-btn>
-    <q-select outlined v-model="currFuncName" :options="functionNames" label="Функции" />
+    <q-btn color = "primary" :label="$t('graph.newFunctionLabel')" @click="addFunction()"></q-btn>
+    <q-select outlined v-model="currFuncName" :options="functionNames" :label="$t('graph.functionsLabel')" />
     <q-input outlined v-model="A" label="A" />
     <q-input outlined v-model="B" label="B" />
     <q-input outlined v-model="C" label="C" />
-    <q-input outlined v-model="start" label="From" />
-    <q-input outlined v-model="end" label="To" />
+    <q-input outlined v-model="start" :label="$t('graph.fromLabel')" />
+    <q-input outlined v-model="end" :label="$t('graph.toLabel')" />
     <q-input
         outlined
-        label="Color"
+        :label="$t('graph.colorLabel')"
         v-model="color"
         class="my-input"
       >
@@ -85,7 +85,7 @@ export default {
       responisve: true,
       title: {
         display: true,
-        text: 'График функции Ax^2 + Bx + C'
+        text: this.$t('graph.plotTitle')
       },
       tooltips: {
         mode: 'index',

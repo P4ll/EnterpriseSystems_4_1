@@ -14,14 +14,24 @@
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
-
+        <q-btn-dropdown stretch flat :label="$store.getters.getLang">
+        <q-list>
+          <q-item-section>
+            <q-btn stretch flat label="ru" @click="changeLang('ru')"/>
+          </q-item-section>
+          <q-separator/>
+          <q-item-section>
+            <q-btn stretch flat label="en" @click="changeLang('en')"/>
+          </q-item-section>
+        </q-list>
+        </q-btn-dropdown>
         <div v-if="!this.$store.state.auth">
-          <q-btn stretch flat label="Вход" to="/auth"/>
-          <q-btn stretch flat label="Регистрация" to="/reg"/>
+          <q-btn stretch flat :label="$t('app.signInLabel')" to="/auth"/>
+          <q-btn stretch flat :label="$t('app.registrationLabel')" to="/reg"/>
         </div>
         <div v-else>
-          Привет, {{ $store.state.currUser['name'] }}!
-          <q-btn stretch flat label="Выход" to="/auth" @click="signOut()"/>
+          {{$t('app.greetings') + ', ' + $store.state.currUser['name'] }}!
+          <q-btn stretch flat :label="$t('app.signOutLabel')" to="/auth" @click="signOut()"/>
         </div>
 
       </q-toolbar>
@@ -35,18 +45,18 @@
       content-class="bg-grey-2"
     >
       <q-list>
-        <q-item-label header>Меню проекта</q-item-label>
+        <q-item-label header>{{ $t('app.menuLabel') }}</q-item-label>
         <q-item to="/graph">
           <q-item-section avatar>
              <q-icon name="show_chart"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>График</q-item-label>
+            <q-item-label>{{ $t('app.graphsLabel') }}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item to="/profile">
           <q-item-section>
-            <q-item-label>Профиль</q-item-label>
+            <q-item-label>{{ $t('app.profileLabel') }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -77,6 +87,11 @@ export default {
   methods: {
     signOut () {
       this.$store.dispatch('signOut')
+    },
+
+    changeLang (lang) {
+      this.$i18n.locale = lang
+      this.$store.dispatch('setLang', lang)
     }
   }
 

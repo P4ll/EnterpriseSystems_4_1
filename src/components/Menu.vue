@@ -8,15 +8,15 @@
     >
       <q-header class="bg-primary">
         <q-toolbar>
-          <q-toolbar-title>Редактирование параметров</q-toolbar-title>
+          <q-toolbar-title>{{ $t('graph.menu.title') }}</q-toolbar-title>
           <q-btn flat round dense icon="close" @click="closeDlg"></q-btn>
         </q-toolbar>
       </q-header>
       <q-footer class="bg-primary">
         <q-toolbar>
           <q-toolbar-title></q-toolbar-title>
-          <q-btn label="Отменить" @click="closeDlg()" class="q-mr-sm" />
-          <q-btn label="Сохранить" @click="submit()" />
+          <q-btn :label="$t('graph.menu.cancel')" @click="closeDlg()" class="q-mr-sm" />
+          <q-btn :label="$t('graph.menu.save')" @click="submit()" />
         </q-toolbar>
       </q-footer>
       <q-page-container>
@@ -24,24 +24,24 @@
           <div class="doc-container q-pa-md">
               <q-input
                v-model="aForm"
-               label="Параметр A"
+               :label="$t('graph.menu.paramA')"
                :error="aError"
                :error-message="aErrorMsg"
               />
               <q-input
                v-model="bForm"
-               label="Параметр C"
+               :label="$t('graph.menu.paramB')"
                :error="bError"
                :error-message="bErrorMsg"
               />
               <q-input
                v-model="cForm"
-               label="Параметр C"
+               :label="$t('graph.menu.paramC')"
                :error="cError"
                :error-message="cErrorMsg"
               />
-              <q-btn color = "primary" label = "Add new function" @click="addFunction()"></q-btn>
-              <q-select outlined v-model="currFuncNameTMP" :options="functionNamesTMP" label="Функции" />
+              <q-btn color = "primary" :label="$t('graph.newFunctionLabel')" @click="addFunction()"></q-btn>
+              <q-select outlined v-model="currFuncNameTMP" :options="functionNamesTMP" :label="$t('graph.functionsLabel')" />
           </div>
         </q-page>
       </q-page-container>
@@ -76,8 +76,8 @@ export default {
       aErrorMsg: '',
       bErrorMsg: '',
       cErrorMsg: '',
-      emptyStrMsg: 'Строка пуста!',
-      invalidNumberMsg: 'Введенное значение не является числом!',
+      emptyStrMsg: this.$t('graph.menu.errors.emptyStrMsg'),
+      invalidNumberMsg: this.$t('graph.menu.errors.invalidNumberMsg'),
       currFuncNameTMP: null,
       functionsTMP: {},
       functionNamesTMP: null
@@ -93,6 +93,11 @@ export default {
 
   mounted () {
 
+  },
+
+  beforeUpdate () {
+    this.emptyStrMsg = this.$t('graph.menu.errors.emptyStrMsg')
+    this.invalidNumberMsg = this.$t('graph.menu.errors.invalidNumberMsg')
   },
 
   watch: {
