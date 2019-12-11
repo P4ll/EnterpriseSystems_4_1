@@ -17,6 +17,14 @@ export function getCurrUser (state) {
   return state.currUser
 }
 
+export function getLogins (state) {
+  return state.allLogins
+}
+
+export function getUsers (state) {
+  return state.users
+}
+
 export function isAuthorized (state) {
   return state.auth
 }

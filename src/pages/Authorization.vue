@@ -59,15 +59,15 @@ export default {
 
   methods: {
     signIn () {
+      let userMissing = !(this.login in this.$store.getters.getLogins)
       let md5 = require('md5')
-      let passwordHash = md5(this.password)
-      this.authError = !(this.login in this.$store.state.allLogins) || this.$store.state.users[this.$store.state.allLogins[this.login]]['password'] !== passwordHash
+      let users = this.$store.getters.getUsers
+      let wrongPassword = users[this.$store.getters.getLogins[this.login]]['password'] !== md5(this.password)
+      this.authError = userMissing || wrongPassword
       if (!this.authError) {
-        this.$store.state.currUser = this.$store.state.users[this.$store.state.allLogins[this.login]]
-        this.$store.state.auth = true
+        this.$store.dispatch('signIn', this.login)
         this.generalMsg = this.authSuccMsg
       } else {
-        this.$store.state.auth = false
         this.generalMsg = this.authErrorMsg
       }
     }

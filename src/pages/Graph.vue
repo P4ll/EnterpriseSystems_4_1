@@ -51,7 +51,7 @@ export default {
       globalChartOptions: null,
       currFuncName: '',
       functionNames: [],
-      functions: this.$store.state.currUser['functions'],
+      functions: this.$store.getters.getCurrUser['functions'],
       start: -10,
       end: 10,
       xAxesVals: [],

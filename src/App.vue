@@ -15,12 +15,6 @@
           Quasar App
         </q-toolbar-title>
 
-        <router-link class="nav-link" to="/reg">
-          <template v-slot="props">
-            <q-btn v-bind="buttonProps(props)" />
-          </template>
-        </router-link>
-
         <div v-if="!this.$store.state.auth">
           <q-btn stretch flat label="Вход" to="/auth"/>
           <q-btn stretch flat label="Регистрация" to="/reg"/>
@@ -82,8 +76,7 @@ export default {
 
   methods: {
     signOut () {
-      this.$store.state.auth = false
-      this.$store.state.currUser = null
+      this.$store.dispatch('signOut')
     }
   }
 

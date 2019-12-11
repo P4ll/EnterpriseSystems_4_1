@@ -142,19 +142,15 @@ export default {
 
   methods: {
     saveChanges () {
-      let id = this.$store.state.allLogins[this.$store.state.currUser['login']]
-      delete this.$store.state.allLogins[this.$store.state.currUser['login']]
-      this.$store.state.allLogins[this.login] = id
-      let md5 = require('md5')
-      let passwordHash = md5(this.password)
-      this.$store.state.currUser = {
+      let user = {
         name: this.name,
         login: this.login,
-        password: passwordHash,
+        password: this.password,
         passport: this.passport,
         birthday: this.birthday,
-        functions: this.$store.state.currUser['functions']
+        functions: this.$store.getters.getCurrUser['functions']
       }
+      this.$store.dispatch('changeUser', user)
     }
   }
 }

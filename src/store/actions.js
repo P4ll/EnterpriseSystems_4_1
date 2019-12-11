@@ -10,8 +10,8 @@ export function signIn (contex, data) {
   contex.commit('signIn', data)
 }
 
-export function signOut (contex, data) {
-  contex.commit('signOut', data)
+export function signOut (contex) {
+  contex.commit('signOut')
 }
 
 export function changeUser (contex, data) {

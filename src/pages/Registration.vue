@@ -132,7 +132,7 @@ export default {
       }
       vals = vals.map(Number)
       this.birthdayError = vals[0] > 31 || vals[0] === 0 || vals[1] > 12 || vals[1] === 0
-      this.birthdayErrorMsg = 'Пспортные данные должны соответствовать шаблону DD.MM.YYYY!'
+      this.birthdayErrorMsg = 'Паспортные данные должны соответствовать шаблону DD.MM.YYYY!'
     }
   },
 
@@ -157,14 +157,10 @@ export default {
       if (this.nameError || this.loginError || this.passwordError || this.passportError || this.birthdayError) {
         return
       }
-      this.$store.state.allLogins[this.login] = this.$store.state.id
-      this.$store.state.id++
-      let md5 = require('md5')
-      let passwordHash = md5(this.password)
-      this.$store.state.users.push({
+      let user = {
         name: this.name,
         login: this.login,
-        password: passwordHash,
+        password: this.password,
         passport: this.passport,
         birthday: this.birthday,
         functions: {
@@ -175,7 +171,8 @@ export default {
             color: '#F00'
           }
         }
-      })
+      }
+      this.$store.dispatch('addUser', user)
       this.registrationSucc = true
     }
   }
